@@ -1,7 +1,13 @@
 const mario = document.querySelector('.mario');
 const pipe = document.querySelector('.pipe');
 const nuvens = document.querySelector('.nuvens')
-
+var tempoPontos = 100;
+var banco = {
+    user: {
+        nome: 'Mario',
+        pontos: []
+    }
+}
 
 const pulo = () => {
     mario.classList.add('pulo');
@@ -38,7 +44,6 @@ const loop = setInterval(() =>{
 
 }, 10)
 
-var tempoPontos = 100;
 
 const aumentarPontos = setInterval(()=>{
     let pontos = document.getElementById('pontos');
@@ -65,6 +70,18 @@ const aumentarPontos = setInterval(()=>{
     verificarPulo(pipePosition, marioPosition)
 
 }, tempoPontos)
+
+const guardarPontos = setInterval(()=>{
+    const pipePosition = pipe.offsetLeft;
+    const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '')
+
+    if(pipePosition <= 96 && pipePosition > 0 && marioPosition < 50 ){
+        let pontos = document.getElementById('pontos');
+        banco.user.pontos.push(pontos.innerHTML);
+        localStorage.setItem('banco', JSON.stringify(banco));
+
+    }
+}, 10)
 
 
 document.addEventListener('keydown', pulo)
